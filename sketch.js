@@ -51,7 +51,7 @@ let messageTimer = 0;
 let currentMessage = "";
 let tinyFaceOccurrences = [];
 let currentTinyFaceIndex = 0;
-let gameState = "COUNTDOWN";
+let gameState = "SPLASH"; // Start with the splash screen
 let stateTimer = 0;
 let invulnerabilityTimer = 0;
 let donkeyPath = [];
@@ -108,6 +108,7 @@ function setup() {
   createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT + 50);
   frameRate(60);
   resetLevel();
+  countdownTimer = COUNTDOWN_DURATION; // Initialize countdown timer
 }
 
 function isCollidingWithObstacle(x, y, size) {
@@ -404,7 +405,7 @@ function resetLevel() {
   donkeyTarget = null;
   donkeyAnimation = null;
   invulnerabilityTimer = 120;
-  gameState = "COUNTDOWN";
+  // Note: gameState is now set to "SPLASH" at initialization, so we don't set it here
   countdownTimer = COUNTDOWN_DURATION;
 }
 
@@ -571,6 +572,28 @@ function draw() {
   line(0, TILE_SIZE, CANVAS_WIDTH, TILE_SIZE);
   noStroke();
 
+  // Handle state transitions
+  if (gameState === "SPLASH") {
+    // Draw the splash screen
+    fill(0);
+    textAlign(CENTER);
+    
+    // Title
+    textSize(48);
+    text("Doge vs. Donkey", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 60);
+    
+    // Brief overview
+    textSize(20);
+    text("Save the budget from woke spending!", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+    text("Collect money as Doge, avoid the donkey!", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
+    
+    // Click/tap to continue prompt
+    textSize(16);
+    text(touches.length > 0 ? "Tap to continue" : "Click to continue", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 60);
+    
+    return; // Wait for click/tap via mousePressed()
+  }
+
   // Draw status bar (visible during COUNTDOWN, PLAYING, and other states)
   fill(0);
   textSize(16);
@@ -580,7 +603,6 @@ function draw() {
   text(`Level ${level}/25`, CANVAS_WIDTH - 10, 20);
   textAlign(CENTER);
 
-  // Handle state transitions
   if (gameState === "COUNTDOWN") {
     // Draw the board
     drawBoard();
@@ -982,6 +1004,11 @@ function handleTinyFaceEnemies() {
 }
 
 function mousePressed() {
+  if (gameState === "SPLASH") {
+    gameState = "COUNTDOWN";
+    return;
+  }
+
   if (gameState === "GAME_OVER") {
     transitionToNextLevel();
   }
