@@ -405,7 +405,6 @@ function resetLevel() {
   donkeyTarget = null;
   donkeyAnimation = null;
   invulnerabilityTimer = 120;
-  // Note: gameState is now set to "SPLASH" at initialization, so we don't set it here
   countdownTimer = COUNTDOWN_DURATION;
 }
 
@@ -634,10 +633,6 @@ function draw() {
     return;
   }
 
-  if (gameState === "TRANSITIONING") {
-    return;
-  }
-
   if (gameState === "PENALTY") {
     fill(0);
     textSize(24);
@@ -791,8 +786,8 @@ function handleDogeMovement() {
 }
 
 function transitionToNextLevel() {
-  gameState = "TRANSITIONING";
   resetLevel();
+  gameState = "COUNTDOWN"; // Directly transition to the countdown for the next level
 }
 
 function handleDonkeyMovement() {
@@ -1011,7 +1006,10 @@ function mousePressed() {
   }
 
   if (gameState === "GAME_OVER") {
-    transitionToNextLevel();
+    resetLevel();
+    level = 1; // Reset level to 1
+    score = 0; // Reset score to 0
+    gameState = "SPLASH"; // Show splash screen when restarting after game over
   }
 }
 
