@@ -586,11 +586,11 @@ function draw() {
     textSize(20);
     text("Save the budget from woke spending!", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
     text("Collect money as Doge, avoid the donkey!", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
-    text("Don't be fooled by the easy levels. The game gets harder after level 10!", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
+    text("Don't be fooled by the easy levels. The game gets harder after level 10!", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 60);
     
     // Click/tap to continue prompt
     textSize(16);
-    text(touches.length > 0 ? "Tap to continue" : "Click to continue", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 60);
+    text(touches.length > 0 ? "Tap to continue" : "Click to continue", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 100);
     
     return; // Wait for click/tap via mousePressed()
   }
